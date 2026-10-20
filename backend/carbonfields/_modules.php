@@ -35,6 +35,9 @@ function render_modules (): void {
             case 'example':
                 $module['image'] = get_media_by_id($module['image'], 'full');
                 break;
+                case 'hero_front':
+                    $module['image'] = get_media_by_id($module['image']);
+                    break;
                 // todo: add data modifications for modules here as a new case
         }
         // -> Laden des Templates basierend auf dem Modultyp und weitergeben der Daten

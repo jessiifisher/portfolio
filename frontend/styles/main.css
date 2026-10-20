@@ -5,19 +5,21 @@
 /* Definition of base styles. */
 :root {
     /* colors */
-    --color-white: #ffffff;
-    --color-black: #000000;
-    --color-accent: #ff0000;
+    --color-grün: #AFBF61;
+    --color-brown: #59342A;
+    --color-yellow: #F2E9BB;
+    --color-red: #8C0817;
+    --color-blue: #A4C8F2;
     /* gaps & sizes */
     --gap-around: 40px;
     /* fonts */
-    --font-h1: normal 64px/120% serif;
+    --font-h1: normal 64px/120% "Pesto Fresco", serif;
 }
 
 /* Styling of all available layout components. */
 [data-layout="header"] {
     padding: var(--gap-around);
-    background-color: var(--color-accent);
+    background-color: var(--color-yellow);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -35,7 +37,9 @@
             gap: 20px;
             a{
                 text-decoration: none;
-                color: var(--color-white);
+                font-size: 24px ;
+                color: var(--color-brown);
+                font-family: "PestoFresco", sans-serif;
             }
         }
     }
@@ -46,7 +50,7 @@
 }
 [data-layout="footer"] {
     padding: var(--gap-around);
-    background-color: var(--color-accent);
+    background-color: var(--color-yellow);
     .nav-container{
         .nav{
             list-style: none;
@@ -57,7 +61,8 @@
             gap: 20px;
             a{
                 text-decoration: none;
-                color: var(--color-white);
+                color: var(--color-brown);
+                font-family: "PestoFresco", sans-serif;
             }
         }
     }
