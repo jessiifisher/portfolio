@@ -39,6 +39,10 @@
             }
         }
     }
+    .logo{
+        width: 80px;
+        height: auto;
+    }
 }
 [data-layout="footer"] {
     padding: var(--gap-around);
@@ -57,6 +61,26 @@
             }
         }
     }
+    .socials{
+        img{
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-self: center;
+        gap: 20px;
+        a{
+            text-decoration: none;
+        }
+    }
+    .logo{
+        width: 80px;
+        height: auto;
+    }
+
 }
 
 
