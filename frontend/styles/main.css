@@ -18,8 +18,9 @@
 
 /* Styling of all available layout components. */
 [data-layout="header"] {
-    padding: var(--gap-around);
+    padding: 20px var(--gap-around);
     background-color: var(--color-yellow);
+    border-bottom: 3px solid var(--color-brown);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -52,9 +53,17 @@
     }
 }
 [data-layout="footer"] {
-    padding: var(--gap-around);
+    padding: 20px var(--gap-around);
     background-color: var(--color-yellow);
+    border-top: 3px solid var(--color-brown);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+
     .nav-container{
+        grid-column: 3;
+        grid-row: 1;
+
         .nav{
             list-style: none;
             display: flex;
@@ -70,6 +79,8 @@
         }
     }
     .socials{
+        grid-column: 2;
+        grid-row: 1;
         img{
             width: 24px;
             height: 24px;
@@ -77,7 +88,7 @@
         }
         display: flex;
         flex-direction: row;
-        justify-content: flex-end;
+        justify-content: center;
         align-self: center;
         gap: 20px;
         a{
@@ -85,8 +96,10 @@
         }
     }
     .home-link {
+        grid-column: 1;
+        grid-row: 1;
         display: inline-block;
-        margin-bottom: 20px;
+        margin-bottom: 0;
         color: var(--color-brown);
         font: 24px "PestoFresco", sans-serif;
         text-decoration: none;
@@ -170,8 +183,8 @@
 
     .about-image {
         display: block;
-        width: 100%;
-        max-height: 65vh;
+        width: 75%;
+        max-height: 100vh;
         object-fit: cover;
     }
 
@@ -228,8 +241,8 @@
     min-height: 100vh;
 
     .video-heading {
-        min-height: 425px;
-        padding: 24px 4.5vw 0;
+        min-height: 0;
+        padding: 0 4.5vw;
         border-bottom: 1px solid var(--module-foreground);
         position: relative;
         display: flex;
@@ -238,7 +251,7 @@
 
     .video-title {
         margin: 0;
-        font: normal clamp(120px, 21vw, 400px)/0.95 "PestoFresco", serif;
+        font: normal clamp(100px, 17vw, 320px)/0.95 "PestoFresco", serif;
     }
 
     .video-note {
@@ -468,7 +481,7 @@
     [data-module="foto"],
     [data-module="divers"] {
         .video-heading {
-            min-height: 280px;
+            min-height: 0;
         }
 
         .video-gallery {
@@ -508,7 +521,7 @@
     [data-module="foto"],
     [data-module="divers"] {
         .video-heading {
-            min-height: 220px;
+            min-height: 0;
         }
 
         .video-gallery {
