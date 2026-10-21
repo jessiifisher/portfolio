@@ -1,11 +1,10 @@
 <?php
 $menu = get_menu_by_slug(slug:'legals');
-$logo= get_globals_logo();
 $socials = get_globals_socials();
 ?>
 
 <footer data-layout="footer">
-    <img class='logo' src="<?=$logo['src']?>" alt="<?=$logo['alt']?>">
+    <a class="home-link" href="<?= esc_url(home_url('/')) ?>">jessi fisher ★ multimedia producer</a>
    <div class="socials">
        <?php foreach ($socials as $item): ?>
        <a target="_blank" href="<?= $item['link'] ?>" aria label="Link zu <?= $item['title'] ?>">

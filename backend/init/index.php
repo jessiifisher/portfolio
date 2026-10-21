@@ -30,6 +30,13 @@ add_action(
         wp_dequeue_style('wp-block-library-theme');
         wp_dequeue_style('wc-blocks-style');
         wp_dequeue_style('global-styles');
+        wp_enqueue_script(
+            'portfolio-main',
+            get_template_directory_uri() . '/frontend/scripts/main.js',
+            [],
+            null,
+            true
+        );
         remove_action('wp_head', 'print_emoji_detection_script', 7);
         remove_action('admin_print_scripts', 'print_emoji_detection_script');
         remove_action('wp_print_styles', 'print_emoji_styles');
