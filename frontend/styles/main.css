@@ -13,7 +13,7 @@
     /* gaps & sizes */
     --gap-around: 40px;
     /* fonts */
-    --font-h1: normal 64px/120% "Pesto Fresco", serif;
+    --font-h1: normal 220px/120% "PestoFresco", serif;
 }
 
 /* Styling of all available layout components. */
@@ -124,7 +124,7 @@
     }
     & > .title {
         position: relative;
-        color: white;
+        color: var(--color-grün);
         font: var(--font-h1);
         text-align: center;
     }
