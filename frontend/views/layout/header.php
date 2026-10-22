@@ -9,7 +9,11 @@ $menu = get_menu_by_slug(slug:'main');
             <?php foreach ($menu as $item): ?>
                 <?php if (strtolower(trim($item['title'])) === 'startseite') continue; ?>
                 <li class="nav-item">
-                    <a target="<?= $item['target'] ?>" href="<?= $item['url'] ?>">
+                    <a
+                        target="<?= esc_attr($item['target']) ?>"
+                        href="<?= esc_url($item['url']) ?>"
+                        <?= (int) $item['ID'] === (int) get_queried_object_id() ? 'aria-current="page"' : '' ?>
+                    >
                         <?= $item['title'] ?>
                     </a>
                 </li>

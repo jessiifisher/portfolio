@@ -5,6 +5,20 @@ document.addEventListener('click', (event) => {
         return
     }
 
+    const carouselButton = event.target.closest('[data-carousel-direction]')
+    if (carouselButton) {
+        const carousel = carouselButton.closest('[data-project-carousel]')
+        const track = carousel?.querySelector('.project-carousel-track')
+        const slide = track?.querySelector('.project-carousel-slide')
+        if (track && slide) {
+            track.scrollBy({
+                left: (slide.getBoundingClientRect().width + 20) * Number(carouselButton.dataset.carouselDirection),
+                behavior: 'smooth',
+            })
+        }
+        return
+    }
+
     const openButton = event.target.closest('[data-project-open]')
     if (openButton) {
         const dialog = document.getElementById(openButton.dataset.projectOpen)

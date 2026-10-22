@@ -12,37 +12,15 @@ $data = $args['data'];
         <div class="video-gallery">
             <?php foreach ($data['projects'] as $project): ?>
                 <?php
-                $dialog_id = wp_unique_id('video-project-') . (int) $project['id'];
                 $project_image = $project['image'] ?: [];
                 ?>
                 <article class="video-project">
-                    <button class="video-project-open" type="button" data-project-open="<?= esc_attr($dialog_id) ?>" aria-haspopup="dialog">
+                    <a class="video-project-link" href="<?= esc_url($project['url']) ?>" aria-label="<?= esc_attr($project['title']) ?>">
                         <?php if (!empty($project_image['src'])): ?>
                             <img src="<?= esc_url($project_image['src']) ?>" alt="<?= esc_attr($project_image['alt'] ?? $project['title']) ?>">
                         <?php endif; ?>
                         <span class="video-project-title" aria-hidden="true"><?= esc_html($project['title']) ?></span>
-                        <span class="screen-reader-text"><?= esc_html($project['title']) ?> ansehen</span>
-                    </button>
-                    <dialog class="video-project-dialog" id="<?= esc_attr($dialog_id) ?>" aria-labelledby="<?= esc_attr($dialog_id) ?>-title">
-                        <button class="video-project-close" type="button" data-project-close aria-label="Projektfenster schließen">&times;</button>
-                        <div class="video-project-content">
-                            <?php if (!empty($project_image['src'])): ?>
-                                <img class="video-project-image" src="<?= esc_url($project_image['src']) ?>" alt="<?= esc_attr($project_image['alt'] ?? $project['title']) ?>">
-                            <?php endif; ?>
-                            <div class="video-project-copy">
-                                <h2 id="<?= esc_attr($dialog_id) ?>-title"><?= esc_html($project['title']) ?></h2>
-                                <?php if (!empty($project['lead'])): ?>
-                                    <p class="video-project-lead"><?= esc_html($project['lead']) ?></p>
-                                <?php endif; ?>
-                                <?php if (!empty($project['description'])): ?>
-                                    <p class="video-project-description"><?= esc_html($project['description']) ?></p>
-                                <?php endif; ?>
-                                <?php if (!empty($project['text'])): ?>
-                                    <div class="video-project-text"><?= wpautop($project['text']) ?></div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    </dialog>
+                    </a>
                 </article>
             <?php endforeach; ?>
         </div>
