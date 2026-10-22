@@ -6,9 +6,9 @@ $socials = get_globals_socials();
 <section data-module="kontakt">
     <header class="contact-heading">
         <h1 class="contact-title"><?= esc_html($data['title'] ?: 'Contact') ?></h1>
-        <span class="contact-spark contact-spark--top" aria-hidden="true">✳</span>
-        <span class="contact-spark contact-spark--side" aria-hidden="true">✳</span>
-        <span class="contact-doodle contact-doodle--top" aria-hidden="true">〰</span>
+        <?php if (!empty($data['header_image']['src'])): ?>
+            <img class="module-header-image" src="<?= esc_url($data['header_image']['src']) ?>" alt="<?= esc_attr($data['header_image']['alt'] ?? '') ?>">
+        <?php endif; ?>
     </header>
 
     <div class="contact-details">
@@ -35,6 +35,15 @@ $socials = get_globals_socials();
                 <a href="mailto:<?= esc_attr($data['email']) ?>">Email <span aria-hidden="true">↗</span></a>
             <?php endif; ?>
         </nav>
-        <span class="contact-doodle contact-doodle--bottom" aria-hidden="true">✳ 〰</span>
     </div>
+
+    <?php if (!empty($data['decorative_gifs'])): ?>
+        <div class="contact-gifs" aria-hidden="true">
+            <?php foreach ($data['decorative_gifs'] as $gif): ?>
+                <?php if (!empty($gif['src'])): ?>
+                    <img src="<?= esc_url($gif['src']) ?>" alt="">
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 </section>

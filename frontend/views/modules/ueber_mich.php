@@ -28,4 +28,16 @@ $data = $args['data'];
             <?php endif; ?>
         </div>
     </div>
+
+    <?php if (!empty($data['about_gallery'])): ?>
+        <div class="about-gallery">
+            <?php foreach ($data['about_gallery'] as $image): ?>
+                <?php if (!empty($image['src'])): ?>
+                    <figure class="about-gallery-item">
+                        <img src="<?= esc_url($image['src']) ?>" alt="<?= esc_attr($image['alt'] ?? '') ?>">
+                    </figure>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 </section>

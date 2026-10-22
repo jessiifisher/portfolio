@@ -5,7 +5,9 @@ $data = $args['data'];
 <section data-module="video">
     <header class="video-heading">
         <h1 class="video-title"><?= esc_html($data['title'] ?: 'Video') ?></h1>
-        <span class="video-note" aria-hidden="true">cut!</span>
+        <?php if (!empty($data['header_image']['src'])): ?>
+            <img class="module-header-image" src="<?= esc_url($data['header_image']['src']) ?>" alt="<?= esc_attr($data['header_image']['alt'] ?? '') ?>">
+        <?php endif; ?>
     </header>
 
     <?php if (!empty($data['projects'])): ?>

@@ -14,10 +14,19 @@ $data = $args['data'];
     <?php if (!empty($data['subline_after'])): ?>
         <p class="subline subline-after"><?= esc_html($data['subline_after']) ?></p>
     <?php endif; ?>
+    <?php if (!empty($data['favorite_projects'])): ?>
+        <a class="favorite-projects-arrow" href="#favorite-projects" aria-label="Zu den Lieblingsprojekten">
+        <?php if (!empty($data['favorite_projects_arrow']['src'])): ?>
+            <img src="<?= esc_url($data['favorite_projects_arrow']['src']) ?>" alt="">
+        <?php else: ?>
+            <span aria-hidden="true">↓</span>
+        <?php endif; ?>
+    </a>
+    <?php endif; ?>
 </section>
 
 <?php if (!empty($data['favorite_projects'])): ?>
-    <section class="favorite-projects" data-section="favorite-projects" aria-label="Lieblingsprojekte">
+    <section id="favorite-projects" class="favorite-projects" data-section="favorite-projects" aria-label="Lieblingsprojekte">
         <div class="favorite-projects-gallery">
             <?php foreach ($data['favorite_projects'] as $project): ?>
                 <?php $project_image = $project['image'] ?: []; ?>

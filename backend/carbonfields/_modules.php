@@ -14,6 +14,7 @@ Container::make('post_meta', 'Module')
                 Field::make('text', 'subline_after', 'Subline nach dem Titel'),
                 Field::make('image', 'image', 'Bild')->set_required(),
                 Field::make('image', 'image_secondary', 'Zweites Bild (rechts oben)'),
+                Field::make('image', 'favorite_projects_arrow', 'Bild für den Pfeil zu den Lieblingsprojekten'),
                 Field::make('association', 'favorite_projects', 'Lieblingsprojekte')
                     ->set_types([
                         [
@@ -35,10 +36,12 @@ Container::make('post_meta', 'Module')
                 Field::make('textarea', 'subline', 'Untertitel'),
                 Field::make('textarea', 'content', 'Text'),
                 Field::make('image', 'image', 'Bild'),
+                Field::make('media_gallery', 'about_gallery', 'Fotogalerie unter dem Text'),
             ])
             // --> video
             ->add_fields('video', 'Video', [
                 Field::make('text', 'title', 'Titel')->set_required(),
+                Field::make('image', 'header_image', 'GIF oben rechts'),
                 Field::make('association', 'projects', 'Projekte auswählen')
                     ->set_types([
                         [
@@ -53,13 +56,22 @@ Container::make('post_meta', 'Module')
             // --> foto
             ->add_fields('foto', 'Foto', [
                 Field::make('text', 'title', 'Titel')->set_required(),
+                Field::make('image', 'header_image', 'GIF oben rechts'),
                 Field::make('textarea', 'subline', 'Untertitel'),
+                Field::make('complex', 'photo_galleries', 'Fotogalerien')
+                    ->add_fields([
+                        Field::make('text', 'title', 'Galeriename')->set_required(),
+                        Field::make('media_gallery', 'images', 'Fotos'),
+                    ])
+                    ->set_header_template('<% if (title) { %><%- title %><% } %>')
+                    ->set_layout('tabbed-vertical'),
                 Field::make('media_gallery', 'gallery', 'Fotogalerie'),
                 Field::make('image', 'image', 'Bild'),
             ])
             // --> divers
             ->add_fields('divers', 'Divers', [
                 Field::make('text', 'title', 'Titel')->set_required(),
+                Field::make('image', 'header_image', 'GIF oben rechts'),
                 Field::make('textarea', 'subline', 'Untertitel'),
                 Field::make('textarea', 'content', 'Text'),
                 Field::make('image', 'image', 'Bild'),
@@ -74,10 +86,16 @@ Container::make('post_meta', 'Module')
             // --> kontakt
             ->add_fields('kontakt', 'Kontakt', [
                 Field::make('text', 'title', 'Titel')->set_required(),
+                Field::make('image', 'header_image', 'GIF oben rechts'),
+                Field::make('media_gallery', 'decorative_gifs', 'Weitere GIFs auf der Seite'),
                 Field::make('textarea', 'subline', 'Untertitel'),
                 Field::make('text', 'email', 'E-Mail'),
                 Field::make('text', 'phone', 'Telefon'),
                 Field::make('textarea', 'content', 'Text'),
+            ])
+            ->add_fields('text_page', 'Textseite (z. B. Datenschutz / Impressum)', [
+                Field::make('text', 'title', 'Titel')->set_required(),
+                Field::make('textarea', 'content', 'Text')->set_required(),
             ])
             // -> SETTINGS
             ->set_layout('tabbed-vertical')
@@ -98,6 +116,9 @@ function render_modules (): void {
                 }
                 if (!empty($module['image_secondary'])) {
                     $module['image_secondary'] = get_media_by_id($module['image_secondary'], 'full');
+                }
+                if (!empty($module['favorite_projects_arrow'])) {
+                    $module['favorite_projects_arrow'] = get_media_by_id($module['favorite_projects_arrow'], 'full');
                 }
                 $module['favorite_projects'] = array_values(array_filter(array_map(
                     static function ($project_reference) {
@@ -130,8 +151,15 @@ function render_modules (): void {
                 if (!empty($module['title_gif'])) {
                     $module['title_gif'] = get_media_by_id($module['title_gif'], 'full');
                 }
+                $module['about_gallery'] = array_filter(array_map(
+                    static fn ($image_id) => get_media_by_id($image_id, 'large'),
+                    $module['about_gallery'] ?? []
+                ));
                 break;
             case 'divers':
+                if (!empty($module['header_image'])) {
+                    $module['header_image'] = get_media_by_id($module['header_image'], 'full');
+                }
                 if (!empty($module['image'])) {
                     $module['image'] = get_media_by_id($module['image']);
                 }
@@ -155,6 +183,27 @@ function render_modules (): void {
                 )));
                 break;
             case 'foto':
+                if (!empty($module['header_image'])) {
+                    $module['header_image'] = get_media_by_id($module['header_image'], 'full');
+                }
+                $module['photo_galleries'] = array_values(array_filter(array_map(
+                    static function ($gallery) {
+                        $images = array_values(array_filter(array_map(
+                            static fn ($image_id) => get_media_by_id($image_id, 'large'),
+                            $gallery['images'] ?? []
+                        )));
+
+                        if (empty($gallery['title']) || empty($images)) {
+                            return null;
+                        }
+
+                        return [
+                            'title' => $gallery['title'],
+                            'images' => $images,
+                        ];
+                    },
+                    $module['photo_galleries'] ?? []
+                )));
                 if (!empty($module['image'])) {
                     $module['image'] = get_media_by_id($module['image'], 'large');
                 }
@@ -164,6 +213,9 @@ function render_modules (): void {
                 ));
                 break;
             case 'video':
+                if (!empty($module['header_image'])) {
+                    $module['header_image'] = get_media_by_id($module['header_image'], 'full');
+                }
                 if (!empty($module['image'])) {
                     $module['image'] = get_media_by_id($module['image']);
                 }
@@ -188,6 +240,15 @@ function render_modules (): void {
                 $module['gallery'] = array_filter(array_map(
                     static fn ($image_id) => get_media_by_id($image_id, 'large'),
                     $module['gallery'] ?? []
+                ));
+                break;
+            case 'kontakt':
+                if (!empty($module['header_image'])) {
+                    $module['header_image'] = get_media_by_id($module['header_image'], 'full');
+                }
+                $module['decorative_gifs'] = array_filter(array_map(
+                    static fn ($image_id) => get_media_by_id($image_id, 'full'),
+                    $module['decorative_gifs'] ?? []
                 ));
                 break;
             // todo: add data modifications for modules here as a new case
