@@ -1,8 +1,37 @@
 console.log('hoi js')
 
+const setMobileMenuOpen = (header, isOpen) => {
+    const toggle = header.querySelector('[data-mobile-menu-toggle]')
+    if (!(toggle instanceof HTMLButtonElement)) {
+        return
+    }
+
+    toggle.setAttribute('aria-expanded', String(isOpen))
+    toggle.setAttribute('aria-label', isOpen ? 'Menü schliessen' : 'Menü öffnen')
+    header.toggleAttribute('data-mobile-menu-open', isOpen)
+    document.body.classList.toggle('mobile-menu-open', isOpen)
+}
+
 document.addEventListener('click', (event) => {
     if (!(event.target instanceof Element)) {
         return
+    }
+
+    const menuToggle = event.target.closest('[data-mobile-menu-toggle]')
+    if (menuToggle) {
+        const header = menuToggle.closest('[data-layout="header"]')
+        if (header) {
+            setMobileMenuOpen(header, menuToggle.getAttribute('aria-expanded') !== 'true')
+        }
+        return
+    }
+
+    const menuLink = event.target.closest('[data-mobile-menu] a')
+    if (menuLink) {
+        const header = menuLink.closest('[data-layout="header"]')
+        if (header) {
+            setMobileMenuOpen(header, false)
+        }
     }
 
     const carouselButton = event.target.closest('[data-carousel-direction]')
@@ -27,8 +56,8 @@ document.addEventListener('click', (event) => {
             module.querySelectorAll('[data-gallery-filter]').forEach((button) => {
                 button.setAttribute('aria-pressed', String(button === galleryFilter))
             })
-            module.querySelectorAll('[data-foto-gallery]').forEach((gallery) => {
-                gallery.hidden = selectedGallery !== 'all' && gallery.dataset.fotoGallery !== selectedGallery
+            module.querySelectorAll('[data-foto-gallery]').forEach((image) => {
+                image.hidden = selectedGallery !== 'all' && image.dataset.fotoGallery !== selectedGallery
             })
         }
         return
@@ -46,6 +75,29 @@ document.addEventListener('click', (event) => {
     const closeButton = event.target.closest('[data-project-close]')
     if (closeButton) {
         closeButton.closest('dialog')?.close()
+    }
+})
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+        document.querySelectorAll('[data-layout="header"] [data-mobile-menu-toggle][aria-expanded="true"]').forEach((toggle) => {
+            const header = toggle.closest('[data-layout="header"]')
+            if (header) {
+                setMobileMenuOpen(header, false)
+                toggle.focus()
+            }
+        })
+    }
+})
+
+window.addEventListener('resize', () => {
+    if (window.matchMedia('(min-width: 769px)').matches) {
+        document.querySelectorAll('[data-layout="header"] [data-mobile-menu-toggle][aria-expanded="true"]').forEach((toggle) => {
+            const header = toggle.closest('[data-layout="header"]')
+            if (header) {
+                setMobileMenuOpen(header, false)
+            }
+        })
     }
 })
 

@@ -20,17 +20,28 @@ $data = $args['data'];
             <?php endforeach; ?>
         </nav>
 
-        <?php foreach ($data['photo_galleries'] as $index => $gallery): ?>
-            <div class="video-gallery foto-gallery" data-foto-gallery="<?= esc_attr((string) $index) ?>">
-                <?php foreach ($gallery['images'] as $image): ?>
-                    <?php if (!empty($image['src'])): ?>
-                        <figure class="video-gallery-item">
-                            <img src="<?= esc_url($image['src']) ?>" alt="<?= esc_attr($image['alt'] ?? $gallery['title']) ?>">
-                        </figure>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            </div>
-        <?php endforeach; ?>
+        <?php
+        $photo_images = [];
+        foreach ($data['photo_galleries'] as $index => $gallery) {
+            foreach ($gallery['images'] ?? [] as $image) {
+                $photo_images[] = [
+                    'image' => $image,
+                    'gallery_index' => $index,
+                    'gallery_title' => $gallery['title'],
+                ];
+            }
+        }
+        shuffle($photo_images);
+        ?>
+        <div class="video-gallery foto-gallery" data-foto-gallery-list>
+            <?php foreach ($photo_images as $photo): ?>
+                <?php if (!empty($photo['image']['src'])): ?>
+                    <figure class="video-gallery-item" data-foto-gallery="<?= esc_attr((string) $photo['gallery_index']) ?>">
+                        <img src="<?= esc_url($photo['image']['src']) ?>" alt="<?= esc_attr($photo['image']['alt'] ?? $photo['gallery_title']) ?>">
+                    </figure>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
     <?php elseif (!empty($data['gallery']) || !empty($data['image']['src'])): ?>
         <div class="video-gallery" data-foto-gallery="legacy">
             <?php if (!empty($data['gallery'])): ?>

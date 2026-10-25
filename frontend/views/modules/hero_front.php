@@ -8,5 +8,10 @@ js_log(content: $data)
     <?php if ($data['subline']): ?>
     <p class="subline"><?= $data['subline'] ?></p>
     <?php endif; ?>
-    <img src="image" src="<?= $data['image']['src'] ?>" alt="<?= $data['image']['alt'] ?>">
+    <figure class="hero-front-image-wrap">
+        <img class="hero-front-image" src="<?= esc_url($data['image']['src']) ?>" alt="<?= esc_attr($data['image']['alt'] ?? '') ?>">
+        <?php if (!empty($data['image_secondary']['src'])): ?>
+            <img class="hero-front-image-overlay" src="<?= esc_url($data['image_secondary']['src']) ?>" alt="<?= esc_attr($data['image_secondary']['alt'] ?? '') ?>">
+        <?php endif; ?>
+    </figure>
 </section>

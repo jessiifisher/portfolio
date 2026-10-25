@@ -23,6 +23,15 @@ $data = $args['data'];
         <?php endif; ?>
     </a>
     <?php endif; ?>
+    <?php if (!empty($data['decorative_gifs'])): ?>
+        <div class="home-gifs" aria-hidden="true">
+            <?php foreach ($data['decorative_gifs'] as $gif): ?>
+                <?php if (!empty($gif['src'])): ?>
+                    <img src="<?= esc_url($gif['src']) ?>" alt="">
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 </section>
 
 <?php if (!empty($data['favorite_projects'])): ?>

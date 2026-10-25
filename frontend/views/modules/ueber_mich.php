@@ -7,6 +7,9 @@ $data = $args['data'];
         <?php if (!empty($data['image']['src'])): ?>
             <figure class="about-image-wrap">
                 <img class="about-image" src="<?= esc_url($data['image']['src']) ?>" alt="<?= esc_attr($data['image']['alt'] ?? $data['title']) ?>">
+                <?php if (!empty($data['image_overlay']['src'])): ?>
+                    <img class="about-image-overlay" src="<?= esc_url($data['image_overlay']['src']) ?>" alt="<?= esc_attr($data['image_overlay']['alt'] ?? '') ?>">
+                <?php endif; ?>
             </figure>
         <?php endif; ?>
 

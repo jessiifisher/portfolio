@@ -34,7 +34,7 @@ add_action(
             'portfolio-main',
             get_template_directory_uri() . '/frontend/scripts/main.js',
             [],
-            null,
+            filemtime(get_template_directory() . '/frontend/scripts/main.js'),
             true
         );
         remove_action('wp_head', 'print_emoji_detection_script', 7);
